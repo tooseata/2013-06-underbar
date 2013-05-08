@@ -2,9 +2,20 @@ var _ = {};
 
 (function() {
 
-  // Return an array of the last n elements of an array. If n is undefined,
-  // return just the last element.
+  //Return an array of the last n elements of an array. If n is undefined,
+  //return just the last element.
   _.last = function(array, n) {
+      if (n === undefined) {
+        return array[array.length - 1];
+      }
+      else if (n > array.length) {
+        return array;
+      }
+      else {
+        var endPoint = array.length;
+        var startPoint = endPoint - n;
+        return array.slice(startPoint,endPoint);
+        }
   };
 
   // Like last, but for the first elements
@@ -80,7 +91,9 @@ var _ = {};
 
   // Calls the method named by methodName on each value in the list.
   _.invoke = function(list, methodName) {
+    return list[i].sort();
   };
+   
 
   // Reduces an array or object to a single value by repetitively calling
   // iterator(previousValue, item) for each item. previousValue should be
