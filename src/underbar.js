@@ -12,21 +12,30 @@ var _ = {};
         return array;
       }
       else {
-        var endPoint = array.length;
-        var startPoint = endPoint - n;
-        return array.slice(startPoint,endPoint);
+        return Array.prototype.slice.call(array, array.length - n);
         }
   };
 
   // Like last, but for the first elements
   _.first = function(array, n) {
-    // TIP: you can often re-use similar functions in clever ways, like so:
-    return _.last(array.reverse(), n);
+      if(n === undefined){
+        return array[0];
+      } else if (n > array.length) {
+        return array;
+      } else{
+        return Array.prototype.slice.call(array, 0, n);
+        //return _.last(array.reverse(), n);
+      }
+    
   };
-
 
   // Call iterator(value, key, collection) for each element of collection
   _.each = function(obj, iterator) {
+    if(Array.isArray(obj)){
+      return iterator(value, key, collection);
+    } else{
+      return iterator(value, key, collection);
+    }
   };
 
   /*

@@ -25,62 +25,41 @@ describe("last", function() {
 
   });
 
-//var args = returnArguments(1, 2, 3, 4)
-//console.log(typeof args);
 
-
-describe("invoke", function() {
-  it("should sort the first array", function() {
-    var lists = [[5, 1, 7], [3, 2, 1]];
-    var result = _.invoke(lists, 'sort');
-    expect(result[0]).to.eql([1, 5, 7]);
+describe("first", function() {
+  it("should be able to pull out the first element of an array", function() {
+    expect(_.first([1,2,3])).to.equal(1);
   });
 
-  it("should sort the second array", function() {
-    var lists = [[5, 1, 7], [3, 2, 1]];
-    var result = _.invoke(lists, 'sort');
-    expect(result[1]).to.eql([1, 2, 3]);
+  it("should be able to accept a user-defined index", function() {
+    expect(_.first([1,2,3], 0)).to.eql([]);
+    expect(_.first([1,2,3], 2)).to.eql([1, 2]);
+    expect(_.first([1,2,3], 5)).to.eql([1, 2, 3]);
+  });
+
+  it("should work on an arguments object", function() {
+    var args = returnArguments(1,2,3);
+    expect(_.first(args, 2)).to.eql([1,2]);
+  });
+
+});
+
+describe("each", function() {
+  it("should provide value and iteration count", function() {
+    var letters = ['a', 'b', 'c'];
+    var iterations = [];
+
+    _.each(letters, function(letter, index, collection) {
+      iterations.push([letter, index, collection]);
+    });
+
+    expect(iterations).to.eql([
+      ['a', 0, letters],
+      ['b', 1, letters],
+      ['c', 2, letters]
+    ]);
   });
 });
-
-});
-
-
-
-// describe("first", function() {
-//   it("should be able to pull out the first element of an array", function() {
-//     expect(_.first([1,2,3])).to.equal(1);
-//   });
-
-//   it("should be able to accept a user-defined index", function() {
-//     expect(_.first([1,2,3], 0)).to.eql([]);
-//     expect(_.first([1,2,3], 2)).to.eql([1, 2]);
-//     expect(_.first([1,2,3], 5)).to.eql([1, 2, 3]);
-//   });
-
-//   it("should work on an arguments object", function() {
-//     var args = returnArguments(1,2,3);
-//     expect(_.first(args, 2)).to.eql([1,2]);
-//   });
-
-// });
-
-// describe("each", function() {
-//   it("should provide value and iteration count", function() {
-//     var letters = ['a', 'b', 'c'];
-//     var iterations = [];
-
-//     _.each(letters, function(letter, index, collection) {
-//       iterations.push([letter, index, collection]);
-//     });
-
-//     expect(iterations).to.eql([
-//       ['a', 0, letters],
-//       ['b', 1, letters],
-//       ['c', 2, letters]
-//     ]);
-//   });
-// });
 
 // describe("indexOf", function() {
 
@@ -194,6 +173,27 @@ describe("invoke", function() {
 //     expect(result[1]).to.eql([1, 2, 3]);
 //   });
 // });
+
+
+// describe("invoke", function() {
+//   it("should sort the first array", function() {
+//     var lists = [[5, 1, 7], [3, 2, 1]];
+//     var result = _.invoke(lists, 'sort');
+//     expect(result[0]).to.eql([1, 5, 7]);
+//   });
+
+//   it("should sort the second array", function() {
+//     var lists = [[5, 1, 7], [3, 2, 1]];
+//     var result = _.invoke(lists, 'sort');
+//     expect(result[1]).to.eql([1, 2, 3]);
+//   });
+// });
+
+});
+
+
+
+
 
 // describe("reduce", function() {
 //   it("should be able to sum up an array", function() {
