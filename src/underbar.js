@@ -32,7 +32,8 @@ var _ = {};
   // Call iterator(value, key, collection) for each element of collection
   _.each = function(obj, iterator) {
     if(Array.isArray(obj)){
-      return iterator(value, key, collection);
+      return
+        iterator(value, key, collection);
     } else{
       return iterator(value, key, collection);
     }
@@ -60,6 +61,12 @@ var _ = {};
 
   // Return all elements of an array that pass a truth test.
   _.filter = function(collection, iterator) {
+   if(Array.isArray(collection)){
+      return collection.filter(iterator);
+    } else{
+      return collection // How do I handle objects? 
+    }
+
   };
 
   // Return all elements of an array that don't pass a truth test.
@@ -70,6 +77,24 @@ var _ = {};
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
+    var newArray = [], 
+      arrayLen = array.length,
+      found,
+      i, j;
+      
+      for (i = 0; arrayLen; i++) {
+        found =  undefined;
+        for (j = 0; j < newArray.length; j++) {
+          if (array[i] === newArray[j]) {
+            found = true;
+            break;
+          }
+          if (!found) {
+            newArray.push(array[i]);
+          }
+        }
+        return newArray;
+      };
   };
 
 

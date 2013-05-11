@@ -61,133 +61,133 @@ describe("each", function() {
   });
 });
 
-// describe("indexOf", function() {
+describe("indexOf", function() {
 
-//   it("should be able to compute indexOf even when the native function is undefined", function() {
-//     var numbers = [1, 2, 3];
-//     numbers.indexOf = null;
-//     expect(_.indexOf(numbers, 2)).to.be(1);
-//   });
+  it("should be able to compute indexOf even when the native function is undefined", function() {
+    var numbers = [1, 2, 3];
+    numbers.indexOf = null;
+    expect(_.indexOf(numbers, 2)).to.be(1);
+  });
 
-//   it("should work on an arguments object", function() {
-//     var args = returnArguments(1,2,3);
-//     expect(_.indexOf(args, 2)).to.be(1);
-//   });
+  it("should work on an arguments object", function() {
+    var args = returnArguments(1,2,3);
+    expect(_.indexOf(args, 2)).to.be(1);
+  });
 
-//   it("should not have 35 in the list", function() {
-//     var numbers = [10, 20, 30, 40, 50];
-//     expect(_.indexOf(numbers, 35)).to.be(-1);
-//   });
+  it("should not have 35 in the list", function() {
+    var numbers = [10, 20, 30, 40, 50];
+    expect(_.indexOf(numbers, 35)).to.be(-1);
+  });
 
-//   it("should have 40 in the list", function() {
-//     var numbers = [10, 20, 30, 40, 50];
-//     expect(_.indexOf(numbers, 40)).to.be(3);
-//   });
+  it("should have 40 in the list", function() {
+    var numbers = [10, 20, 30, 40, 50];
+    expect(_.indexOf(numbers, 40)).to.be(3);
+  });
 
-//   it("should have 40 in the list even when there are duplicates", function() {
-//     var numbers = [1, 40, 40, 40, 40, 40, 40, 40, 50, 60, 70];
-//     expect(_.indexOf(numbers, 40)).to.be(1);
-//   });
-// });
+  it("should have 40 in the list even when there are duplicates", function() {
+    var numbers = [1, 40, 40, 40, 40, 40, 40, 40, 50, 60, 70];
+    expect(_.indexOf(numbers, 40)).to.be(1);
+  });
+});
 
-// describe("filter", function() {
-//   it("should return all even numbers in an array", function() {
-//     var isEven = function(num) {
-//       return num % 2 === 0;
-//     };
-//     var evens = _.filter([1, 2, 3, 4, 5, 6], isEven);
-//     expect(evens).to.eql([2, 4, 6]);
-//   });
+describe("filter", function() {
+  it("should return all even numbers in an array", function() {
+    var isEven = function(num) {
+      return num % 2 === 0;
+    };
+    var evens = _.filter([1, 2, 3, 4, 5, 6], isEven);
+    expect(evens).to.eql([2, 4, 6]);
+  });
 
-//   it("should return all odd numbers in an array", function() {
-//     var isOdd = function(num) {
-//       return num % 2 !== 0;
-//     };
-//     var odds = _.filter([1, 2, 3, 4, 5, 6], isOdd);
-//     expect(odds).to.eql([1, 3, 5]);
-//   });
-// });
+  it("should return all odd numbers in an array", function() {
+    var isOdd = function(num) {
+      return num % 2 !== 0;
+    };
+    var odds = _.filter([1, 2, 3, 4, 5, 6], isOdd);
+    expect(odds).to.eql([1, 3, 5]);
+  });
+});
 
-// describe("reject", function() {
-//   it("should reject all even numbers", function() {
-//     var isEven = function(num) { return num % 2 === 0; };
-//     var odds = _.reject([1, 2, 3, 4, 5, 6], isEven);
-//     expect(odds).to.eql([1, 3, 5]);
-//   });
+describe("reject", function() {
+  it("should reject all even numbers", function() {
+    var isEven = function(num) { return num % 2 === 0; };
+    var odds = _.reject([1, 2, 3, 4, 5, 6], isEven);
+    expect(odds).to.eql([1, 3, 5]);
+  });
 
-//   it("should reject all odd numbers", function() {
-//     var isOdd = function(num) { return num % 2 !== 0; };
-//     var evens = _.reject([1, 2, 3, 4, 5, 6], isOdd);
-//     expect(evens).to.eql([2, 4, 6]);
-//   });
-// });
+  it("should reject all odd numbers", function() {
+    var isOdd = function(num) { return num % 2 !== 0; };
+    var evens = _.reject([1, 2, 3, 4, 5, 6], isOdd);
+    expect(evens).to.eql([2, 4, 6]);
+  });
+});
 
-// describe("uniq", function() {
-//   it("should return all unique values contained in an unsorted array", function() {
-//     var list = [1, 2, 1, 3, 1, 4];
-//     expect(_.uniq(list)).to.eql([1, 2, 3, 4]);
-//   });
+describe("uniq", function() {
+  it("should return all unique values contained in an unsorted array", function() {
+    var list = [1, 2, 1, 3, 1, 4];
+    expect(_.uniq(list)).to.eql([1, 2, 3, 4]);
+  });
 
-//   it("should handle iterators that work with a sorted array", function() {
-//     var iterator = function(value) { return value +1; };
-//     var list = [1, 2, 2, 3, 4, 4];
-//     expect(_.uniq(list, true, iterator)).to.eql([1, 2, 3, 4]);
-//   });
+  it("should handle iterators that work with a sorted array", function() {
+    var iterator = function(value) { return value +1; };
+    var list = [1, 2, 2, 3, 4, 4];
+    expect(_.uniq(list, true, iterator)).to.eql([1, 2, 3, 4]);
+  });
 
-//   it("should work on an arguments object", function() {
-//     var args = returnArguments(1, 2, 1, 3, 1, 4);
-//     expect(_.uniq(args)).to.eql([1, 2, 3, 4]);
-//   });
-// });
+  it("should work on an arguments object", function() {
+    var args = returnArguments(1, 2, 1, 3, 1, 4);
+    expect(_.uniq(args)).to.eql([1, 2, 3, 4]);
+  });
+});
 
-// describe("map", function() {
-//   it("should apply a function to every value in an array", function() {
-//     var doubled = _.map([1, 2, 3], function(num) { return num * 2; });
-//     expect(doubled).to.eql([2, 4, 6]);
-//   });
-// });
+describe("map", function() {
+  it("should apply a function to every value in an array", function() {
+    var doubled = _.map([1, 2, 3], function(num) { return num * 2; });
+    expect(doubled).to.eql([2, 4, 6]);
+  });
+});
 
-// describe("pluck", function() {
-//   it("should return values contained at a user-defined property", function() {
-//     var people = [
-//       {name : 'moe', age : 30},
-//       {name : 'curly', age : 50}
-//     ];
+describe("pluck", function() {
+  it("should return values contained at a user-defined property", function() {
+    var people = [
+      {name : 'moe', age : 30},
+      {name : 'curly', age : 50}
+    ];
 
-//     expect(_.pluck(people, 'name')).to.eql(['moe', 'curly']);
-//   });
-// });
-
-
-
-// describe("invoke with function reference", function() {
-//   it("should sort the first array", function() {
-//     var list = [[5, 1, 7], [3, 2, 1]];
-//     var result = _.invoke(list, Array.prototype.sort);
-//     expect(result[0]).to.eql([1, 5, 7]);
-//   });
-
-//   it("should sort the second array", function() {
-//     var list = [[5, 1, 7], [3, 2, 1]];
-//     var result = _.invoke(list, Array.prototype.sort);
-//     expect(result[1]).to.eql([1, 2, 3]);
-//   });
-// });
+    expect(_.pluck(people, 'name')).to.eql(['moe', 'curly']);
+  });
+});
 
 
-// describe("invoke", function() {
-//   it("should sort the first array", function() {
-//     var lists = [[5, 1, 7], [3, 2, 1]];
-//     var result = _.invoke(lists, 'sort');
-//     expect(result[0]).to.eql([1, 5, 7]);
-//   });
 
-//   it("should sort the second array", function() {
-//     var lists = [[5, 1, 7], [3, 2, 1]];
-//     var result = _.invoke(lists, 'sort');
-//     expect(result[1]).to.eql([1, 2, 3]);
-//   });
-// });
+describe("invoke with function reference", function() {
+  it("should sort the first array", function() {
+    var list = [[5, 1, 7], [3, 2, 1]];
+    var result = _.invoke(list, Array.prototype.sort);
+    expect(result[0]).to.eql([1, 5, 7]);
+  });
+
+  it("should sort the second array", function() {
+    var list = [[5, 1, 7], [3, 2, 1]];
+    var result = _.invoke(list, Array.prototype.sort);
+    expect(result[1]).to.eql([1, 2, 3]);
+  });
+});
+
+
+describe("invoke", function() {
+  it("should sort the first array", function() {
+    var lists = [[5, 1, 7], [3, 2, 1]];
+    var result = _.invoke(lists, 'sort');
+    expect(result[0]).to.eql([1, 5, 7]);
+  });
+
+  it("should sort the second array", function() {
+    var lists = [[5, 1, 7], [3, 2, 1]];
+    var result = _.invoke(lists, 'sort');
+    expect(result[1]).to.eql([1, 2, 3]);
+  });
+});
 
 });
 
