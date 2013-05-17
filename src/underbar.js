@@ -26,16 +26,19 @@ var _ = {};
         return Array.prototype.slice.call(array, 0, n);
         //return _.last(array.reverse(), n);
       }
-    
   };
 
   // Call iterator(value, key, collection) for each element of collection
   _.each = function(obj, iterator) {
-    if(Array.isArray(obj)){
-      return
-        iterator(value, key, collection);
-    } else{
-      return iterator(value, key, collection);
+     if(!obj) return;
+    if(obj.length){
+      for(var i = 0; i < obj.length; i++){
+        iterator(obj[i], i, obj);
+      }
+    } else {
+      for (var key in obj){
+        iterator(obj[key],key,obj);
+      }
     }
   };
 
@@ -64,7 +67,7 @@ var _ = {};
    if(Array.isArray(collection)){
       return collection.filter(iterator);
     } else{
-      return collection // How do I handle objects? 
+      return collection;
     }
 
   };
@@ -73,30 +76,45 @@ var _ = {};
   _.reject = function(collection, iterator) {
     // TIP: see if you can re-use _.select() here, without simply
     // copying code in and modifying it
+    return _.filter(collection, function(item, index) {
+      return !iterator.call(this, item, index);
+      }
+    );
+
+
   };
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
-    var newArray = [], 
-      arrayLen = array.length,
-      found,
-      i, j;
-      
-      for (i = 0; arrayLen; i++) {
-        found =  undefined;
-        for (j = 0; j < newArray.length; j++) {
-          if (array[i] === newArray[j]) {
-            found = true;
-            break;
+    var newArr = [],
+        origLen = array.length,
+        found,
+        x = 0; y = 0;
+
+      if(array.callee === undefined){
+
+        array.sort();
+          for (var i = 1; i < array.length; i++ ) {
+            if ( array[i] === array[ i - 1 ] ) {
+                array.splice( i--, 1 );
+            }
           }
-          if (!found) {
-            newArray.push(array[i]);
+        return array;
+      }
+      else {
+         for ( x = 0; x < origLen; x++ ) {
+          found = undefined;
+          for ( y = 0; y < newArr.length; y++ ) {
+              if (array[x] === array[y] ) found = true;
+          }
+          if ( !found){
+            newArr.push( array[x] );
           }
         }
-        return newArray;
-      };
-  };
+        return newArr;
+      }
 
+    };
 
   /*
    * map() is a useful primitive iteration function that works a lot
@@ -104,9 +122,17 @@ var _ = {};
    * the members, it also maintains an array of results.
    */
 
+
   // Return the results of applying an iterator to each element.
   _.map = function(array, iterator) {
-  };
+      var result = [],
+      arrayLen = array.length;
+      for (var key = 0; key < arrayLen; key++){
+         var index = array[key];
+         result.push(iterator.call(array, index));
+       }
+       return  result;
+      };
 
   /*
    * TIP: map is really handy when you want to transform an array of
@@ -125,9 +151,14 @@ var _ = {};
 
   // Calls the method named by methodName on each value in the list.
   _.invoke = function(list, methodName) {
-    return list[i].sort();
+   //debugger;
+   var args = Array.prototype.slice.call(arguments);
+  
+   console.log(args.length);
+    for (var index in list){
+        return _.filter(list[index] );
+    }
   };
-   
 
   // Reduces an array or object to a single value by repetitively calling
   // iterator(previousValue, item) for each item. previousValue should be
@@ -137,18 +168,31 @@ var _ = {};
   // call. Defaults to 0.
   //
   // Example:
-  //   var numbers = [1,2,3];
-  //   var sum = _.reduce(numbers, function(total, number){
-  //     return total + number;
-  //   }, 0); // should be 6
+    // var numbers = [1,2,3];
+    // var sum = _.reduce(numbers, function(total, number){
+    //   return total + number;
+    // }, 0); // should be 6
   //
+
+
   _.reduce = function(obj, iterator, initialValue) {
+  // debugger;
+  if (initialValue == null) {
+      initialValue = 0;
+    }
+    _.each(obj, function(value) {
+      return initialValue = iterator(initialValue, value);
+    });
+
+    return initialValue;
+
   };
 
   // Determine if the array or object contains a given value (using `===`).
   _.contains = function(collection, target) {
     // TIP: A lot of iteration problems can be most easily expressed in
     // terms of reduce(). Here's a freebie to demonstrate!
+    //debugger;
     return _.reduce(collection, function(wasFound, item){
       if(wasFound){
         return true;
@@ -160,7 +204,25 @@ var _ = {};
 
   // Determine whether all of the elements match a truth test.
   _.every = function(obj, iterator) {
+     //debugger;
+
+    var truthy, value, index, origLen;
+
+     if (obj.length === 0) {
+      return true;
+    }
     // TIP: use reduce on this one!
+     for (index = 0, origLen = obj.length; index < origLen; index++) {
+      value = obj[index];
+      if (iterator(value)) {
+        truthy = true;
+      } else {
+        return false;
+      }
+    }
+    return truthy;
+
+
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
