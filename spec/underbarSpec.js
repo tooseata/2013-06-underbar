@@ -1,34 +1,5 @@
 var returnArguments = function(){ return arguments; };
 
-describe("invoke with function reference", function() {
-  it("should sort the first array", function() {
-    var list = [[5, 1, 7], [3, 2, 1]];
-    var result = _.invoke(list, Array.prototype.sort);
-    expect(result[0]).to.eql([1, 5, 7]);
-  });
-
-  it("should sort the second array", function() {
-    var list = [[5, 1, 7], [3, 2, 1]];
-    var result = _.invoke(list, Array.prototype.sort);
-    expect(result[1]).to.eql([1, 2, 3]);
-  });
-});
-
-
-describe("invoke", function() {
-  it("should sort the first array", function() {
-    var lists = [[5, 1, 7], [3, 2, 1]];
-    var result = _.invoke(lists, 'sort');
-    expect(result[0]).to.eql([1, 5, 7]);
-  });
-
-  it("should sort the second array", function() {
-    var lists = [[5, 1, 7], [3, 2, 1]];
-    var result = _.invoke(lists, 'sort');
-    expect(result[1]).to.eql([1, 2, 3]);
-  });
-});
-
 describe("last", function() {
   it("should pull the last element from an array", function() {
     expect(_.last([1,2,3])).to.equal(3);
@@ -186,7 +157,34 @@ describe("pluck", function() {
 });
 
 
+describe("invoke with function reference", function() {
+  it("should sort the first array", function() {
+    var list = [[5, 1, 7], [3, 2, 1]];
+    var result = _.invoke(list, Array.prototype.sort);
+    expect(result[0]).to.eql([1, 5, 7]);
+  });
 
+  it("should sort the second array", function() {
+    var list = [[5, 1, 7], [3, 2, 1]];
+    var result = _.invoke(list, Array.prototype.sort);
+    expect(result[1]).to.eql([1, 2, 3]);
+  });
+});
+
+
+describe("invoke", function() {
+  it("should sort the first array", function() {
+    var lists = [[5, 1, 7], [3, 2, 1]];
+    var result = _.invoke(lists, 'sort');
+    expect(result[0]).to.eql([1, 5, 7]);
+  });
+
+  it("should sort the second array", function() {
+    var lists = [[5, 1, 7], [3, 2, 1]];
+    var result = _.invoke(lists, 'sort');
+    expect(result[1]).to.eql([1, 2, 3]);
+  });
+});
 
 
 describe("reduce", function() {

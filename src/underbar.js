@@ -86,34 +86,18 @@ var _ = {};
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
-    var newArr = [],
-        origLen = array.length,
-        found,
-        x = 0; y = 0;
-
-      if(array.callee === undefined){
-
-        array.sort();
-          for (var i = 1; i < array.length; i++ ) {
-            if ( array[i] === array[ i - 1 ] ) {
-                array.splice( i--, 1 );
-            }
-          }
-        return array;
+  //debugger;
+  var holderArray, value, index, origLen, result;
+    holderArray = [];
+    result = [];
+    origLen = array.length;
+    for (index = 0; index < origLen; index++) {
+      value = array[index];
+      if (!_.contains(holderArray, value)) {
+        result.push(holderArray.push(value));
       }
-      else {
-         for ( x = 0; x < origLen; x++ ) {
-          found = undefined;
-          for ( y = 0; y < newArr.length; y++ ) {
-              if (array[x] === array[y] ) found = true;
-          }
-          if ( !found){
-            newArr.push( array[x] );
-          }
-        }
-        return newArr;
-      }
-
+    }
+    return result;
     };
 
   /*
@@ -150,15 +134,28 @@ var _ = {};
   };
 
   // Calls the method named by methodName on each value in the list.
-  _.invoke = function(list, methodName) {
-   //debugger;
-   var args = Array.prototype.slice.call(arguments);
+
+  _.invoke = function(list, method) {
+  //debugger;
+  var args = Array.prototype.slice.call(arguments, 2);
   
-   console.log(args.length);
-    for (var index in list){
-        return _.filter(list[index] );
-    }
-  };
+  return _.map(list, function(value){
+    method = value[method] ? value[method] : method;
+    return method.apply(value, args);
+  });
+};
+
+
+_.invoke = function(list, method) {
+  //debugger;
+  var args = Array.prototype.slice.call(arguments, 2);
+  
+  return _.map(list, function(value){
+    method = value[method] ? value[method] : method;
+    return method.apply(value, args);
+  });
+};
+
 
   // Reduces an array or object to a single value by repetitively calling
   // iterator(previousValue, item) for each item. previousValue should be
@@ -205,8 +202,7 @@ var _ = {};
   // Determine whether all of the elements match a truth test.
   _.every = function(obj, iterator) {
      //debugger;
-
-    var truthy, value, index, origLen;
+    var bool, value, index, origLen;
 
      if (obj.length === 0) {
       return true;
@@ -215,12 +211,12 @@ var _ = {};
      for (index = 0, origLen = obj.length; index < origLen; index++) {
       value = obj[index];
       if (iterator(value)) {
-        truthy = true;
+        bool = true;
       } else {
         return false;
       }
     }
-    return truthy;
+    return bool;
 
 
   };
@@ -228,8 +224,31 @@ var _ = {};
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
   _.any = function(obj, iterator) {
+    //debugger;
     // TIP: re-use every() here
+    var bool, value, index, origLen;
+    if (obj.length == 0) {
+      return false;
+    }
+    for (index = 0, origLen = obj.length; index < origLen; index++) {
+      value = obj[index];
+      if (iterator != null) {
+        if (iterator(value)) {
+          return true;
+        } else {
+          bool = false;
+        }
+      } else {
+        if (value) {
+          return true;
+        } else {
+          bool = false;
+        }
+      }
+    }
+    return bool;
   };
+
 
 
   /*
@@ -240,20 +259,67 @@ var _ = {};
   // object(s).
   //
   // Example:
-  //   var obj1 = {key1: "something"};
-  //   _.extend(obj1, {
-  //     key2: "something new",
-  //     key3: "something else new"
-  //   }, {
-  //     bla: "even more stuff"
-  //   }); // obj1 now contains key1, key2, key3 and bla
+    // var obj1 = {key1: "something"};
+    // _.extend(obj1, {
+    //   key2: "something new",
+    //   key3: "something else new"
+    // }, {
+    //   bla: "even more stuff"
+    // }); // obj1 now contains key1, key2, key3 and bla
   //
+
   _.extend = function(obj) {
+    //debugger;
+    var arg, args = 1, key, value, index, origLen;
+    if (args <= arguments.length) {
+      args = Array.prototype.slice.call(arguments, 0);
+    } else {
+      args = [];
+      }
+
+    for (index = 0, origLen = args.length; index < origLen; index++) {
+      arg = args[index];
+      for (key in arg) {
+        value = arg[key];
+        //console.log(value);
+        obj[key] = arg[key];
+        //console.log(obj[key]);
+      }
+    }
+    return obj;
+
   };
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+    //debugger;
+    var arg, args = 1, key, value, index, origLen;
+    if (args <= arguments.length) {
+      args = Array.prototype.slice.call(arguments, 0);
+    } else {
+      args = [];
+      }
+
+    console.log("obj: " + obj);
+    //debugger;
+    console.log("args: " + args);
+
+    for (index = 0, origLen = args.length; index < origLen; index++) {
+      arg = args[index];
+      for (key in arg) {
+        value = arg[key];
+        console.log("value: " + value);
+        if (obj[key] == null) {
+          console.log("Before " + obj[key]);
+          obj[key] = arg[key];
+          console.log("After " + obj[key]);
+        }
+
+      }
+    }
+    return obj;
+
   };
 
 
@@ -291,6 +357,17 @@ var _ = {};
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+
+    var result;
+    result = {};
+    return function(param) {
+      if (result.hasOwnProperty(param)) {
+        return result[param];
+      } else {
+        return result[param] = func(param);
+      }
+    };
+
   };
 
   // Delays a function for the given number of milliseconds, and then calls
@@ -300,6 +377,20 @@ var _ = {};
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
+    //debugger;
+    var args = 1; 
+    if (args <= arguments.length){
+      args = Array.prototype.slice.call(arguments, 0);
+    } else {
+      args = [];
+    }
+    args = args.slice(2);
+    //console.log(args);
+
+    setTimeout((function() {
+      return func.apply(null, args);
+    }), wait);
+
   };
 
 
@@ -307,10 +398,46 @@ var _ = {};
    * Advanced collection operations
    */
 
-  // Shuffle an array.
-  _.shuffle = function(obj) {
+   // Adding range function
+
+  _.range = function(start, stop, step) {
+    if (arguments.length <= 1) {
+      stop = start || 0;
+      start = 0;
+    }
+    step = arguments[2] || 1;
+
+    var len = Math.max(Math.ceil((stop - start) / step), 0);
+    var idx = 0;
+    var range = new Array(len);
+
+    while(idx < len) {
+      range[idx++] = start;
+      start += step;
+    }
+
+    return range;
   };
 
+
+  // Shuffle an array.
+  _.shuffle = function(obj) {
+  //debugger;
+  var origLen;
+
+  origLen = obj.length;
+
+  var swap = function (obj, i, j) {
+    //debugger;
+     obj[i], obj[j] = obj[j], obj[i];
+  };
+
+  for (var i = 0; i <= origLen; i++ ) {
+    swap (obj, i, _.range(i, origLen));
+  }
+    return obj;
+  };
+  
   /* (End of pre-course curriculum) */
 
   // Sort the object's values by a criterion produced by an iterator.
